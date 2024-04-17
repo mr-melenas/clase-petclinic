@@ -1,0 +1,22 @@
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+- stage: DockerCompose
+  displayName: 'Run Docker Compose'
+  jobs:
+  - job: DockerComposeJob
+    displayName: 'Docker Compose Job'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DockerCompose@0
+      displayName: 'Start docker compose'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerComposeFile: './docker-compose.yml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up'
+        arguments: '--build -d'
